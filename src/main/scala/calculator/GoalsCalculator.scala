@@ -1,19 +1,22 @@
 package calculator
 
+import scala.collection.mutable.{Map => MutableMap}
 import scala.math.{exp, pow}
 
 object GoalsCalculator {
 
-  def goalsProbabilityMap(goals: Double): Map[Int, Double] = {
+  def goalsProbabilityMap(homeExpGoals: Double, awayExpGoals: Double): MutableMap[(Int, Int), Double] = {
 
-    Array.ofDim[Int](21)
-      .zipWithIndex
-      .map { case (v, i) => (i, v) }
-      .toMap
-      .map {
-        case (k, v) => k -> calculatePoisson(goals, k)
+    val correctScoreProbabilityMap: MutableMap[(Int, Int), Double] = MutableMap()
+
+    for (homeScore <- 0 to 20) {
+      for (awayScore <- 0 to 20) {
+        correctScoreProbabilityMap += ((homeScore, awayScore) ->
+          calculatePoisson(homeExpGoals, homeScore) *
+            calculatePoisson(awayExpGoals, awayScore))
       }
-
+    }
+    correctScoreProbabilityMap
   }
 
   def calculatePoisson(mu: Double, k: Int): Double = {

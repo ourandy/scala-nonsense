@@ -17,7 +17,7 @@ object HelloWorld {
     println()
     println("Problem Three:")
     println(ProblemThree.nth(2,a))
-    println(GoalsCalculator.goalsProbabilityMap(2.5))
+    print(GoalsCalculator.goalsProbabilityMap(1.6,1.1))
   }
 
 }
